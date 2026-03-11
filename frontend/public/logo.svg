@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="95" fill="#1a365d"/>
+  
+  <!-- Radar rings -->
+  <circle cx="100" cy="100" r="75" fill="none" stroke="#2a4a7f" stroke-width="1.5" opacity="0.6"/>
+  <circle cx="100" cy="100" r="55" fill="none" stroke="#2a4a7f" stroke-width="1.5" opacity="0.4"/>
+  <circle cx="100" cy="100" r="35" fill="none" stroke="#2a4a7f" stroke-width="1.5" opacity="0.3"/>
+  
+  <!-- Radar crosshair lines -->
+  <line x1="100" y1="25" x2="100" y2="175" stroke="#2a4a7f" stroke-width="1" opacity="0.3"/>
+  <line x1="25" y1="100" x2="175" y2="100" stroke="#2a4a7f" stroke-width="1" opacity="0.3"/>
+  
+  <!-- Radar sweep -->
+  <path d="M100,100 L100,25 A75,75 0 0,1 165,62.5 Z" fill="url(#sweep)" opacity="0.3"/>
+  <defs>
+    <linearGradient id="sweep" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4ade80" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#4ade80" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Rupee symbol -->
+  <text x="100" y="130" text-anchor="middle" font-family="Arial, sans-serif" font-size="110" font-weight="bold" fill="white">₹</text>
+  
+  <!-- Small blip dots -->
+  <circle cx="140" cy="60" r="4" fill="#4ade80" opacity="0.9"/>
+  <circle cx="140" cy="60" r="8" fill="none" stroke="#4ade80" stroke-width="1.5" opacity="0.5"/>
+  <circle cx="65" cy="140" r="3" fill="#4ade80" opacity="0.6"/>
+</svg>
