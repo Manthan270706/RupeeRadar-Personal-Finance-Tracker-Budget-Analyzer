@@ -4,28 +4,34 @@ const auth = require('../middleware/auth');
 const Transaction = require('../models/Transaction');
 const User = require('../models/User');
 
-// GET monthly summary + budget alerts
+// GET monthly summary + budget alerts + all-time totals
 router.get('/monthly', auth, async (req, res) => {
   try {
     const now = new Date();
     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
-    const transactions = await Transaction.find({
-      user: req.user.id,
-      date: { $gte: startOfMonth }
-    });
+    const [monthlyTransactions, allTransactions, user] = await Promise.all([
+      Transaction.find({ user: req.user.id, date: { $gte: startOfMonth } }),
+      Transaction.find({ user: req.user.id }),
+      User.findById(req.user.id)
+    ]);
 
-    const user = await User.findById(req.user.id);
     const categoryTotals = {};
     let totalIncome = 0, totalExpense = 0;
 
-    transactions.forEach(t => {
+    monthlyTransactions.forEach(t => {
       if (t.type === 'income') {
         totalIncome += t.amount;
       } else {
         totalExpense += t.amount;
         categoryTotals[t.category] = (categoryTotals[t.category] || 0) + t.amount;
       }
+    });
+
+    let allTimeIncome = 0, allTimeExpense = 0;
+    allTransactions.forEach(t => {
+      if (t.type === 'income') allTimeIncome += t.amount;
+      else allTimeExpense += t.amount;
     });
 
     // Generate budget alerts
@@ -39,7 +45,11 @@ router.get('/monthly', auth, async (req, res) => {
       }
     }
 
-    res.json({ totalIncome, totalExpense, categoryTotals, alerts, balance: totalIncome - totalExpense });
+    res.json({
+      totalIncome, totalExpense, categoryTotals, alerts,
+      balance: totalIncome - totalExpense,
+      allTimeIncome, allTimeExpense, allTimeBalance: allTimeIncome - allTimeExpense
+    });
   } catch (err) {
     res.status(500).json({ msg: 'Server error' });
   }

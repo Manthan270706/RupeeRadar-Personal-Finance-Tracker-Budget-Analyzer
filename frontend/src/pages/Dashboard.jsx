@@ -86,10 +86,10 @@ export default function Dashboard() {
       </nav>
 
       <div className="stats-bar">
-        <div className="stat income">Income: ₹{summary.totalIncome}</div>
-        <div className="stat expense">Expense: ₹{summary.totalExpense}</div>
-        <div className={`stat balance ${summary.balance >= 0 ? 'positive' : 'negative'}`}>
-          Balance: ₹{summary.totalIncome - summary.totalExpense}
+        <div className="stat income">Income: ₹{summary.allTimeIncome ?? summary.totalIncome}</div>
+        <div className="stat expense">Expense: ₹{summary.allTimeExpense ?? summary.totalExpense}</div>
+        <div className={`stat balance ${(summary.allTimeBalance ?? summary.balance) >= 0 ? 'positive' : 'negative'}`}>
+          Balance: ₹{summary.allTimeBalance ?? (summary.totalIncome - summary.totalExpense)}
         </div>
       </div>
 
